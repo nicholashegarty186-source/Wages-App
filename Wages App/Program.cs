@@ -29,14 +29,29 @@ namespace Wages_App
 
             Console.WriteLine("\n\nThis program helps the landscaping team manager quickly and accurately calculate each part‑time worker’s weekly pay. \nThe app takes the worker’s name and hours worked, applies the company’s pay rules, and automatically works out \nbonus hours, gross pay, tax, and final net pay. A clear payslip is then displayed, with an optional summary of\nall workers processed.");
 
+            Console.WriteLine("\n\nPress enter to Continue....");
+            Console.ReadLine();
+
+            Console.Clear(); 
+
             // Repeat OneEmployee() until all employee pay slips have been generated
             char continueInput = 'y';
             while (continueInput == 'y' || continueInput.Equals('y'))
             {
+
+                Console.WriteLine("\n\nPress enter to Continue....");
+                Console.ReadLine();
+
+                Console.Clear();
+
                 Console.WriteLine(OneEmployee());
 
                 Console.WriteLine("\n\nDo you want to process another employee? (y/n)");
                 continueInput = Console.ReadLine()[0];
+
+
+                Console.Clear();
+
             }
 
             Console.WriteLine(payslips);
@@ -58,8 +73,10 @@ namespace Wages_App
             List<int> hoursWorked = new List<int>();
             List<string> DAYSOFWEEK = new List<string> { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
             DAYSOFWEEK.AsReadOnly();
-            List<string> QUESTIONS = new List<string> { "Enter Employee ID:", "Enter the employee's firstname:", "Enter the employee's last name:" }; 
-            
+            List<string> QUESTIONS = new List<string> { "Enter Employee ID:", "Enter the employee's firstname:", "Enter the employee's last name:" };
+
+
+            Console.WriteLine("$$$$$$$$ Add Employee $$$$$$$$");
 
             //Capture employee data
             //Recieve employee id
@@ -161,13 +178,27 @@ namespace Wages_App
         //check if a name is lowercase and convert to tital case
         static string checkName(string question)
         {
-            //ask for name imput
-            Console.WriteLine(question);
+            while (true)
+            {
+                //ask for name imput
+                Console.WriteLine(question);
 
-            string nameImput = Console.ReadLine();
-            nameImput = nameImput[0].ToString().ToUpper() + nameImput.Substring(1);
+                string nameImput = Console.ReadLine();
 
-            return nameImput;
+                //check if name imput is alpahbetical characters and '-' only
+                if (Regex.IsMatch(nameImput, @"^[A-Za-z-]+$"))
+                {
+                    nameImput = nameImput[0].ToString().ToUpper() + nameImput.Substring(1);
+
+                    return nameImput;
+                }
+                else
+                {
+                    Console.WriteLine($"Error:names can only contain alphabetic characters and '-'");
+                }
+               
+
+            }
 
         }
 
@@ -176,20 +207,48 @@ namespace Wages_App
         {
             while (true)
             {
-                Console.WriteLine(question);
-                int userImput = Convert.ToInt32(Console.ReadLine());
 
-                //check if user imput between min na dmax value
-                if (userImput >= min && userImput <= max)
+                try
                 {
-                    return userImput;
+                    Console.WriteLine(question);
+                    int userImput = Convert.ToInt32(Console.ReadLine());
+
+                    //check if user imput between min na dmax value
+                    if (userImput >= min && userImput <= max)
+                    {
+                        return userImput;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Please enter a number between {min} and {max}");
+                    }
+
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"Error: you must enter an number between {min} and {max}");
+                }
+
+            }
+        }
+
+        static char CheckContinueImput(string question)
+        {
+            while(true)
+            {
+                string userImput;
+                Console.WriteLine(question);
+                userImput = Console.ReadLine();
+
+                //if user imput is not emptyan is either 'y' or 'n'
+                if (string.IsNullOrEmpty(userImput) && Regex.IsMatch(userImput, "^[yYnN]$"))
+                {
+                    return userImput.ToLower()[0];
                 }
                 else
                 {
-                    Console.WriteLine($"Please enter a number between {min} and {max}");
+                    Console.WriteLine("error: Only 'y' or 'n' is accepted");
                 }
-
-
             }
         }
 
