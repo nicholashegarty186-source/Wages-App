@@ -46,9 +46,7 @@ namespace Wages_App
 
                 Console.WriteLine(OneEmployee());
 
-                Console.WriteLine("\n\nDo you want to process another employee? (y/n)");
-                continueInput = Console.ReadLine()[0];
-
+                continueInput = CheckContinueImput("\n\nDo you want to process another employee? (y/n)"); ;
 
                 Console.Clear();
 
@@ -226,7 +224,9 @@ namespace Wages_App
                 }
                 catch(Exception ex)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Error: you must enter an number between {min} and {max}");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
 
             }
